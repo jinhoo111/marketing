@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; media-src 'none'; object-src 'none'; frame-src 'self' blob:; worker-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
+<meta name="googlebot" content="noindex, nofollow, noarchive, noai, noimageai">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light">
+<title>단골 마케팅 스튜디오 · dangoal</title>
+<meta name="description" content="단골(dangoal)의 단골 스탬프 챌린지 마케팅 도구. 콜드메일·카드뉴스·상세페이지·지표 진단을 브라우저에서 무료로 만듭니다.">
+<script src="js/early.js"></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23D96B27'/%3E%3Crect x='14' y='25' width='30' height='15' rx='7.5' fill='%231E1E1E'/%3E%3Ccircle cx='45' cy='28' r='4' fill='%23F6F2EB'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#strategy" data-goto="strategy" aria-label="단골 마케팅 스튜디오 홈">
+      <span class="logo-mark" aria-hidden="true"></span>
+      <span class="brand-text"><strong>단골</strong><em>마케팅 스튜디오</em></span>
+    </a>
+    <nav class="tabs" role="tablist" aria-label="도구 탭">
+      <button class="tab is-active" role="tab" data-goto="strategy" aria-selected="true">전략 보드</button>
+      <button class="tab" role="tab" data-goto="mail" aria-selected="false">콜드메일</button>
+      <button class="tab" role="tab" data-goto="card" aria-selected="false">카드뉴스</button>
+      <button class="tab" role="tab" data-goto="landing" aria-selected="false">상세페이지</button>
+      <button class="tab" role="tab" data-goto="metrics" aria-selected="false">지표 진단</button>
+    </nav>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost btn-sm" id="btnSettings" title="발신자 정보와 잠금 설정">설정</button>
+      <button class="btn btn-ghost btn-sm" id="btnExportAll" title="리드·지표·설정을 JSON 파일로 저장">내보내기</button>
+      <button class="btn btn-ghost btn-sm" id="btnImportAll" title="JSON 파일 불러오기">가져오기</button>
+      <input type="file" id="fileImportAll" accept="application/json,.json" hidden>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ============================================================ 전략 보드 -->
+  <section id="view-strategy" class="view is-active">
+    <div class="hero">
+      <div class="wrap">
+        <span class="eyebrow">dangoal marketing studio · 무료 정적 도구</span>
+        <h1>단골 스탬프 챌린지,<br><em>'3무' 부담</em>으로 시작하세요</h1>
+        <p class="lead">사장님이 부담하지 않아도 되는 세 가지를 타겟의 언어로 바꿔 말하고, 그 문장을 콜드메일·카드뉴스·상세페이지·지표 진단까지 그대로 이어 씁니다. 외부 API도, 서버도, 토큰도 쓰지 않습니다.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://dangoal.com/apply?svc=store" target="_blank" rel="noopener">2분 진단 열기</a>
+          <button class="btn btn-dark" data-goto="mail">콜드메일 만들기</button>
+          <a class="btn btn-ghost" id="heroPhone" href="#" hidden>전화 문의</a>
+        </div>
+        <div class="stat-strip" id="strategyStats"></div>
+        <p class="stat-note" id="strategyStatsNote"></p>
+      </div>
+    </div>
+
+    <div class="wrap stack">
+      <section class="panel">
+        <div class="section-head">
+          <span class="eyebrow">3무 정의</span>
+          <h2>같은 '3무', 타겟마다 다른 말</h2>
+          <p class="lead">포스터의 “단골 스탬프 챌린지 '3무' 부담”에서 세 가지는 사이트에 정의돼 있지 않았습니다. 시작할 때 부담하지 않아도 되는 세 축으로 정의하고, 타겟에 맞춰 언어만 바꿉니다.</p>
+        </div>
+        <div class="mu-def">
+          <div><b>①</b><strong>초기 구축비·고정비 無</strong><span>기본료 없이 쓴 만큼만, 안 쓰면 0원</span></div>
+          <div><b>②</b><strong>POS 연동·별도 기기·앱 설치 無</strong><span>QR 한 장, 손님은 앱 설치 없이</span></div>
+          <div><b>③</b><strong>수기 집계·운영 인력 無</strong><span>구성·오픈은 단골이, 결과는 리포트로</span></div>
+        </div>
+        <div class="table-wrap">
+          <table class="mu-matrix" id="muMatrix"></table>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="section-head">
+          <span class="eyebrow">타겟별 후킹</span>
+          <h2>세 타겟, 각각의 '3무'</h2>
+          <p class="lead">주요 타겟 3개(동네 매장 / 무인매장·프랜차이즈 / 행사·상인회)에 맞춰 가장 먼저 닿는 부담부터 배치했습니다. 각 타겟은 8개 세그먼트로 다시 나뉩니다.</p>
+        </div>
+        <div class="target-boards" id="targetBoards"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <span class="eyebrow">세그먼트</span>
+          <h2>8개 세그먼트의 고민과 한 줄 후킹</h2>
+          <p class="lead">2분 진단 퍼널의 세그먼트를 기준으로, 각 세그먼트가 먼저 반응할 고민과 문장을 정리했습니다.</p>
+        </div>
+        <div class="table-wrap">
+          <table class="segment-table">
+            <thead><tr><th>타겟</th><th>세그먼트</th><th>이런 고민</th><th>한 줄 후킹</th></tr></thead>
+            <tbody id="segmentRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="grid-2">
+        <section class="panel">
+          <div class="section-head">
+            <span class="eyebrow">브랜드 톤</span>
+            <h2>담백하게, 숫자로</h2>
+            <p class="lead" id="toneSummary">사장님은 “사장님”, 손님은 “손님”이라고 부릅니다.</p>
+          </div>
+          <ul class="rule-list" id="toneRules"></ul>
+          <div class="chip-row" id="toneKeywords"></div>
+        </section>
+
+        <section class="panel price-panel">
+          <div class="section-head">
+            <span class="eyebrow">가격 정책</span>
+            <h2 id="priceHeadline">맞춤 견적</h2>
+            <p class="lead" id="priceBody"></p>
+          </div>
+          <ul class="check-list" id="priceBullets"></ul>
+          <p class="fine">고정 금액을 걸지 않습니다. 상담에서 규모를 확인한 뒤 견적을 안내하고, “기본료 없이 쓴 만큼만”과 무료 프로모션을 함께 설명합니다.</p>
+        </section>
+      </div>
+
+      <div class="grid-2">
+        <section class="panel">
+          <div class="section-head">
+            <span class="eyebrow">바로 쓰는 문장</span>
+            <h2>복사해서 쓰는 카피</h2>
+          </div>
+          <div class="copy-list" id="copyLibrary"></div>
+        </section>
+
+        <section class="panel contact-panel">
+          <div class="section-head">
+            <span class="eyebrow">CTA · 연락처</span>
+            <h2>모든 생성물의 끝은 여기로</h2>
+          </div>
+          <div class="contact-grid" id="contactGrid"></div>
+          <p class="fine" id="contactFoot">dangoal · 다정 · 예비창업기업(사업자등록 전) · 비대면 운영</p>
+          <p class="fine">연락처·이메일은 <button type="button" class="link-btn" data-open-settings>설정</button>에서 입력하면 여기에 표시됩니다. (이 브라우저에만 저장)</p>
+        </section>
+      </div>
+
+      <section class="panel data-panel">
+        <div class="section-head">
+          <span class="eyebrow">데이터</span>
+          <h2>이 브라우저에만 저장됩니다</h2>
+          <p class="lead">리드·지표·설정은 <code>localStorage</code>에 저장됩니다. 서버로 나가지 않습니다. 기기를 바꾸거나 백업하려면 JSON으로 내보내세요.</p>
+        </div>
+        <div class="data-actions">
+          <button class="btn btn-ghost" data-goto="metrics">지표 입력하러 가기</button>
+          <button class="btn btn-ghost" data-goto="card">카드뉴스 만들기</button>
+          <button class="btn btn-ghost danger" id="btnResetAll">전체 초기화</button>
+        </div>
+        <p class="fine">GitHub Pages·Cloudflare Pages·Vercel 어디든 이 폴더를 그대로 올리면 됩니다. 자세한 방법은 README.md에 있습니다.</p>
+      </section>
+    </div>
+  </section>
+
+  <!-- ============================================================ 콜드메일 -->
+  <section id="view-mail" class="view">
+    <div class="wrap stack">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Cold mail</span>
+          <h1>콜드메일 생성 &amp; 파이프라인</h1>
+          <p class="lead">타겟·업종·매장명·지역·챌린지 아이디어를 넣으면 '3무' 후킹이 들어간 제목 3안과 본문을 바로 만듭니다. 톤은 4가지입니다.</p>
+        </div>
+        <div class="view-head-note">외부 LLM 없이 규칙 기반으로 조합합니다. “다시 생성”을 누르면 같은 조건에서 다른 문장 버전이 나옵니다.</div>
+      </div>
+
+      <div class="workbench">
+        <div class="panel form-panel">
+          <h2 class="panel-title">조건 입력</h2>
+          <div class="field">
+            <label for="mailTarget">타겟</label>
+            <select id="mailTarget">
+              <option value="store">동네 매장·카페·음식점</option>
+              <option value="chain">무인매장·프랜차이즈 본사</option>
+              <option value="event">행사·축제·대학·상인회</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mailSegment">세그먼트</label>
+            <select id="mailSegment"></select>
+          </div>
+          <div class="field">
+            <label for="mailName" id="labelName">매장명 *</label>
+            <input id="mailName" type="text" placeholder="예: ○○카페" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="mailIndustry" id="labelIndustry">업종</label>
+            <input id="mailIndustry" type="text" list="industryList" placeholder="예: 카페">
+            <datalist id="industryList"></datalist>
+          </div>
+          <div class="field">
+            <label for="mailRegion" id="labelRegion">지역</label>
+            <input id="mailRegion" type="text" placeholder="예: 대구 수성구">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="mailContact" id="labelContact">사장님 이름</label>
+              <input id="mailContact" type="text" placeholder="선택">
+            </div>
+            <div class="field">
+              <label for="mailEmail">이메일</label>
+              <input id="mailEmail" type="email" placeholder="선택">
+            </div>
+          </div>
+          <div class="field">
+            <label for="mailChallenge">챌린지 아이디어</label>
+            <input id="mailChallenge" type="text" placeholder="비워두면 세그먼트 기본값">
+          </div>
+          <div class="field">
+            <label for="mailTone">톤</label>
+            <select id="mailTone"></select>
+          </div>
+          <div class="field">
+            <label for="mailHook">앞세울 '3무'</label>
+            <select id="mailHook"></select>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" id="btnGenerate" type="button">메일 생성</button>
+            <button class="btn btn-ghost" id="btnMailReset" type="button">입력 지우기</button>
+          </div>
+          <p class="fine">* 매장·행사명은 필수입니다. 지역을 비우면 “우리 동네”로 들어갑니다.</p>
+          <p class="fine" id="profileHint">발신자 정보가 비어 있습니다. <button type="button" class="link-btn" data-open-settings>설정</button>에서 이름·연락처를 입력하면 서명과 CTA에 들어갑니다. 비워 두면 서명 없이 생성됩니다.</p>
+        </div>
+
+        <div class="panel output-panel">
+          <div id="mailEmpty" class="empty-state">
+            <div class="empty-mark">✉</div>
+            <h3>왼쪽 조건을 넣고 “메일 생성”을 누르세요</h3>
+            <p>타겟에 맞는 3무 후킹, 챌린지 예시, 맞춤 견적 문구, 2분 진단 링크까지 한 번에 조합합니다. 결과는 저장하거나 메일 앱으로 바로 보낼 수 있습니다.</p>
+          </div>
+          <div id="mailOutput" hidden>
+            <div class="output-head">
+              <h2 class="panel-title">제목 후보</h2>
+              <span class="meta" id="mailMeta"></span>
+            </div>
+            <div class="subject-list" id="subjectList"></div>
+            <div class="output-head">
+              <h2 class="panel-title">본문</h2>
+              <span class="fine">메일 앱에 붙여넣으면 서식 없이 그대로 들어갑니다.</span>
+            </div>
+            <pre class="mail-body" id="mailBody"></pre>
+            <div class="form-actions wrap-actions">
+              <button class="btn btn-primary" id="btnCopyBody" type="button">본문 복사</button>
+              <button class="btn btn-dark" id="btnOpenMail" type="button">메일 앱 열기</button>
+              <button class="btn btn-ghost" id="btnCopyAll" type="button">제목+본문 복사</button>
+              <button class="btn btn-ghost" id="btnSaveLead" type="button">리드로 저장</button>
+              <button class="btn btn-ghost" id="btnRegenerate" type="button">다시 생성</button>
+            </div>
+            <p class="fine">“메일 앱 열기”는 본문을 클립보드에 복사한 뒤 제목만 채운 메일 창을 엽니다. 본문은 메일 앱에서 붙여넣으세요. 보낸 뒤 파이프라인에서 상태를 “발송됨”으로 바꿔 주세요.</p>
+          </div>
+        </div>
+      </div>
+
+      <section class="panel pipeline">
+        <div class="pipeline-head">
+          <div>
+            <span class="eyebrow">Pipeline</span>
+            <h2>발송 리드</h2>
+            <p class="fine" id="pipelineSummary">아직 리드가 없습니다.</p>
+          </div>
+          <div class="pipeline-tools">
+            <input type="search" id="leadSearch" placeholder="매장명·지역·이메일 검색">
+            <button class="btn btn-ghost btn-sm" id="btnExportLeads" type="button">리드 CSV</button>
+          </div>
+        </div>
+        <div class="count-row" id="pipelineCounts">
+          <button class="count-chip is-active" data-filter="all"><span>전체</span><b class="count-num">0</b></button>
+          <button class="count-chip" data-filter="draft"><span>초안</span><b class="count-num">0</b></button>
+          <button class="count-chip" data-filter="sent"><span>발송됨</span><b class="count-num">0</b></button>
+          <button class="count-chip" data-filter="replied"><span>회신옴</span><b class="count-num">0</b></button>
+          <button class="count-chip" data-filter="meeting"><span>미팅확정</span><b class="count-num">0</b></button>
+        </div>
+        <div class="table-wrap">
+          <table class="lead-table">
+            <thead><tr><th>매장·기관</th><th>타겟</th><th>담당자 / 이메일</th><th>상태</th><th>최근 수정</th><th></th></tr></thead>
+            <tbody id="leadRows"><tr><td colspan="6" class="empty-cell">아직 저장한 리드가 없습니다.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- ============================================================ 카드뉴스 -->
+  <section id="view-card" class="view">
+    <div class="wrap stack">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Card news · 1080×1080</span>
+          <h1>카드뉴스 5장 자동 제작</h1>
+          <p class="lead">표지 → 문제제기 → 3무 해결책 → 작동방식 → CTA. 브랜드 컬러로 Canvas에 바로 그립니다. 문구를 고치면 미리보기가 즉시 바뀝니다.</p>
+        </div>
+        <div class="view-head-note">이미지는 1080×1080 PNG로 저장됩니다. 슬라이드별 저장, 5장 연속 저장, 한 장으로 합친 PNG 저장을 모두 지원합니다.</div>
+      </div>
+
+      <div class="workbench workbench-wide">
+        <div class="panel form-panel" id="cardForm">
+          <h2 class="panel-title">문구 입력</h2>
+          <div class="field">
+            <label for="cardTarget">타겟</label>
+            <select id="cardTarget">
+              <option value="store">동네 매장·카페·음식점</option>
+              <option value="chain">무인매장·프랜차이즈 본사</option>
+              <option value="event">행사·축제·대학·상인회</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="cardSegment">세그먼트</label>
+            <select id="cardSegment"></select>
+          </div>
+          <div class="field">
+            <label for="cardH1">표지 제목 (1줄)</label>
+            <input id="cardH1" type="text">
+          </div>
+          <div class="field">
+            <label for="cardH2">표지 제목 (2줄·강조)</label>
+            <input id="cardH2" type="text">
+          </div>
+          <div class="field">
+            <label for="cardSub">표지 부제</label>
+            <textarea id="cardSub" rows="3"></textarea>
+          </div>
+          <div class="field">
+            <label for="cardProblems">문제제기 3개 (줄바꿈으로 구분)</label>
+            <textarea id="cardProblems" rows="3"></textarea>
+          </div>
+          <fieldset class="field-group">
+            <legend>3무 카드</legend>
+            <div class="field">
+              <label for="cardHookName1">1번 이름</label>
+              <input id="cardHookName1" type="text">
+              <input id="cardHookShort1" type="text" class="mt-6" placeholder="한 줄 설명">
+            </div>
+            <div class="field">
+              <label for="cardHookName2">2번 이름</label>
+              <input id="cardHookName2" type="text">
+              <input id="cardHookShort2" type="text" class="mt-6" placeholder="한 줄 설명">
+            </div>
+            <div class="field">
+              <label for="cardHookName3">3번 이름</label>
+              <input id="cardHookName3" type="text">
+              <input id="cardHookShort3" type="text" class="mt-6" placeholder="한 줄 설명">
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="cardMissions">미션 예시 (쉼표로 구분)</label>
+            <input id="cardMissions" type="text">
+          </div>
+          <div class="field">
+            <label for="cardCtaTitle">CTA 제목</label>
+            <textarea id="cardCtaTitle" rows="2"></textarea>
+          </div>
+          <div class="field">
+            <label for="cardCtaBody">CTA 버튼 문구</label>
+            <input id="cardCtaBody" type="text">
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" id="btnCardRefill" type="button">타겟 기본값 채우기</button>
+          </div>
+          <p class="fine">표지·CTA 문구는 짧을수록 잘 보입니다. 너무 길면 2줄에서 자동으로 줄을 맞춥니다.</p>
+        </div>
+
+        <div class="panel preview-panel">
+          <div class="preview-head">
+            <h2 class="panel-title" id="cardSlideLabel">표지 · 1/5</h2>
+            <div class="form-actions tight">
+              <button class="btn btn-primary btn-sm" id="btnCardDownload" type="button">현재 슬라이드 PNG</button>
+              <button class="btn btn-ghost btn-sm" id="btnCardDownloadAll" type="button">5장 개별 저장</button>
+              <button class="btn btn-ghost btn-sm" id="btnCardDownloadCombined" type="button">전체 PNG (한 장)</button>
+            </div>
+          </div>
+          <div class="canvas-stage">
+            <canvas id="cardPreview" width="1080" height="1080" aria-label="카드뉴스 미리보기"></canvas>
+          </div>
+          <div class="thumb-row" id="cardThumbs"></div>
+          <p class="fine">브랜드 컬러: 베이지 #F6F2EB · 오렌지 #D96B27 · 다크 #1E1E1E. 폰트는 기기에 설치된 Pretendard / Apple SD Gothic Neo / 맑은 고딕을 사용합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 상세페이지 -->
+  <section id="view-landing" class="view">
+    <div class="wrap stack">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Landing builder</span>
+          <h1>상세페이지 섹션 빌더</h1>
+          <p class="lead">타겟과 챌린지 콘셉트를 고르면 히어로부터 3무·작동방식·미션 예시·맞춤 견적·FAQ까지 한 페이지로 만듭니다. 결과는 단독 HTML 파일이라 그대로 배포할 수 있습니다.</p>
+        </div>
+        <div class="view-head-note">외부 폰트·스크립트를 쓰지 않습니다. 파일 하나만 올리면 끝.</div>
+      </div>
+
+      <div class="workbench workbench-wide">
+        <div class="panel form-panel" id="landForm">
+          <h2 class="panel-title">페이지 조건</h2>
+          <div class="field">
+            <label for="landTarget">타겟</label>
+            <select id="landTarget">
+              <option value="store">동네 매장·카페·음식점</option>
+              <option value="chain">무인매장·프랜차이즈 본사</option>
+              <option value="event">행사·축제·대학·상인회</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="landSegment">세그먼트</label>
+            <select id="landSegment"></select>
+          </div>
+          <div class="field">
+            <label for="landName">매장·행사명</label>
+            <input id="landName" type="text" placeholder="예: ○○카페">
+          </div>
+          <div class="field">
+            <label for="landRegion">지역</label>
+            <input id="landRegion" type="text" placeholder="예: 대구 수성구">
+          </div>
+          <div class="field">
+            <label for="landConcept">챌린지 콘셉트</label>
+            <select id="landConcept"></select>
+          </div>
+          <div class="field">
+            <label for="landTone">톤</label>
+            <select id="landTone">
+              <option value="plain">담백하게</option>
+              <option value="warm">조금 더 다정하게</option>
+              <option value="number">숫자 중심</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="landGoal">강조할 목표</label>
+            <select id="landGoal">
+              <option value="revisit">재방문</option>
+              <option value="new">새 손님 유입</option>
+              <option value="data">행사 데이터</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" id="btnLandRefresh" type="button">다시 생성</button>
+          </div>
+          <p class="fine">가격은 어떤 화면에도 고정 금액을 쓰지 않습니다. “맞춤 견적 + 기본료 없이 쓴 만큼만 + 무료 프로모션”으로 통일합니다.</p>
+        </div>
+
+        <div class="panel preview-panel">
+          <div class="preview-head">
+            <div class="land-tabs">
+              <button class="land-tab is-active" data-tab="preview" type="button">미리보기</button>
+              <button class="land-tab" data-tab="code" type="button">HTML 코드</button>
+            </div>
+            <div class="form-actions tight">
+              <button class="btn btn-primary btn-sm" id="btnLandCopy" type="button">코드 복사</button>
+              <button class="btn btn-ghost btn-sm" id="btnLandDownload" type="button">HTML 저장</button>
+              <button class="btn btn-ghost btn-sm" id="btnLandOpen" type="button">새 탭에서 열기</button>
+            </div>
+          </div>
+          <p class="meta" id="landingMeta"></p>
+          <div id="landingPreviewWrap" class="frame-wrap">
+            <iframe id="landingFrame" title="상세페이지 미리보기" sandbox=""></iframe>
+          </div>
+          <div id="landingCodeWrap" class="code-wrap" hidden>
+            <pre class="code-block" id="landingCode"></pre>
+          </div>
+          <p class="fine">저장 파일명: <strong id="landingDownloadName">dangoal-landing.html</strong> · 이 파일 하나로 GitHub Pages 등에 바로 올릴 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 지표 -->
+  <section id="view-metrics" class="view">
+    <div class="wrap stack">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Metrics · rule-based</span>
+          <h1>SNS 지표 트래킹 &amp; 자동 진단</h1>
+          <p class="lead">채널별 주간 지표를 넣으면 퍼널·채널·추이를 그리고, 어디서 새는지 규칙으로 진단해 다음 액션을 제안합니다. 토큰 0원, 브라우저 계산입니다.</p>
+        </div>
+        <div class="view-head-note">노출 → 클릭 → 문의 → 전환. 각 단계의 전환율을 기준(1.5% / 8% / 35%)과 비교합니다.</div>
+      </div>
+
+      <div class="summary-strip">
+        <div class="summary-card"><span>노출</span><b id="sumImpressions">0</b></div>
+        <div class="summary-card"><span>클릭</span><b id="sumClicks">0</b></div>
+        <div class="summary-card"><span>문의</span><b id="sumInquiries">0</b></div>
+        <div class="summary-card"><span>전환</span><b id="sumConversions">0</b></div>
+        <div class="summary-card wide"><span id="sumRange">최근 4주</span><b id="sumRates">클릭률 — · 문의율 — · 전환율 —</b></div>
+      </div>
+
+      <div class="panel diagnosis-panel">
+        <div class="diagnosis level-empty" id="diagnosis"></div>
+        <div class="insights" id="insights"></div>
+      </div>
+
+      <div class="chart-grid">
+        <section class="panel chart-panel">
+          <div class="chart-head"><h3>유입 퍼널</h3><span class="fine" id="metricRangeLabel">최근 4주</span></div>
+          <div id="chartFunnel" class="chart-holder"></div>
+        </section>
+        <section class="panel chart-panel">
+          <div class="chart-head"><h3>채널별 문의·전환</h3><span class="fine">기간 합계</span></div>
+          <div id="chartChannels" class="chart-holder"></div>
+        </section>
+        <section class="panel chart-panel">
+          <div class="chart-head"><h3>주간 추이</h3><span class="fine">최근 8주</span></div>
+          <div id="chartTrend" class="chart-holder"></div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="section-head">
+          <span class="eyebrow">입력</span>
+          <h2>주간 지표 추가</h2>
+          <p class="lead">같은 주·채널을 다시 저장하면 기존 기록을 업데이트합니다. 주 시작일은 월요일을 권장합니다.</p>
+        </div>
+        <form id="metricForm" class="metric-form">
+          <div class="field">
+            <label for="metricWeek">주 시작일</label>
+            <input type="date" id="metricWeek">
+          </div>
+          <div class="field">
+            <label for="metricChannel">채널</label>
+            <select id="metricChannel">
+              <option value="instagram">인스타그램</option>
+              <option value="blog">블로그</option>
+              <option value="coldmail">콜드메일</option>
+              <option value="other">기타</option>
+            </select>
+          </div>
+          <div class="field"><label for="metricImpressions">노출</label><input type="number" id="metricImpressions" min="0" step="1" placeholder="0"></div>
+          <div class="field"><label for="metricClicks">클릭</label><input type="number" id="metricClicks" min="0" step="1" placeholder="0"></div>
+          <div class="field"><label for="metricInquiries">문의</label><input type="number" id="metricInquiries" min="0" step="1" placeholder="0"></div>
+          <div class="field"><label for="metricConversions">전환</label><input type="number" id="metricConversions" min="0" step="1" placeholder="0"></div>
+          <div class="field field-wide"><label for="metricNote">메모</label><input type="text" id="metricNote" placeholder="예: 신메뉴 카드뉴스 5장 발행"></div>
+          <div class="metric-form-actions">
+            <button class="btn btn-primary" id="btnMetricSave" type="submit">지표 저장</button>
+            <button class="btn btn-ghost" id="btnMetricReset" type="button">입력 지우기</button>
+            <span class="edit-hint" id="metricEditHint" hidden>수정 중입니다. 저장하면 기존 행을 교체합니다.</span>
+          </div>
+        </form>
+        <div class="metric-toolbar">
+          <select id="metricRange" aria-label="집계 기간">
+            <option value="4">최근 4주</option>
+            <option value="8">최근 8주</option>
+            <option value="all">전체 기간</option>
+          </select>
+          <div class="metric-toolbar-actions">
+            <button class="btn btn-ghost btn-sm" id="btnMetricExport" type="button">CSV 내보내기</button>
+            <button class="btn btn-ghost btn-sm" id="btnMetricImport" type="button">CSV 가져오기</button>
+            <input type="file" id="metricFile" accept=".csv,text/csv" hidden>
+            <button class="btn btn-ghost btn-sm" id="btnMetricSample" type="button">예시 데이터 채우기</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="metric-table">
+            <thead><tr><th>주</th><th>채널</th><th>노출</th><th>클릭</th><th>문의</th><th>전환</th><th>클릭률</th><th>문의율</th><th></th></tr></thead>
+            <tbody id="metricRows"></tbody>
+          </table>
+        </div>
+        <details class="help">
+          <summary>지표 정의와 기준</summary>
+          <ul>
+            <li><strong>노출</strong>: 콘텐츠 발행·도달 수. 콜드메일은 발송 수로 넣습니다.</li>
+            <li><strong>클릭</strong>: 링크 클릭, 프로필 방문, 메일 답장 열람 등 반응 수.</li>
+            <li><strong>문의</strong>: DM·답장·전화·신청서 도착 건수.</li>
+            <li><strong>전환</strong>: 미팅 확정 또는 계약 건수.</li>
+            <li><strong>기준</strong>: 클릭률 1.5%, 문의율 8%, 전환율 35%. 매장·행사 특성에 맞게 README에서 조정할 수 있습니다.</li>
+          </ul>
+        </details>
+      </section>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <div>
+      <strong>dangoal · 단골 마케팅 스튜디오</strong>
+      <p id="footCompany">다정 · 예비창업기업(사업자등록 전) · 비대면 운영</p>
+    </div>
+    <div class="foot-links">
+      <a href="https://dangoal.com/landing" target="_blank" rel="noopener">회사소개</a>
+      <a href="https://dangoal.com/apply" target="_blank" rel="noopener">2분 진단</a>
+      <a href="https://dangoal.com/legal/terms" target="_blank" rel="noopener">이용약관</a>
+      <a href="https://dangoal.com/legal/privacy" target="_blank" rel="noopener">개인정보</a>
+    </div>
+    <p class="foot-note">서버·외부 API·LLM 토큰을 쓰지 않는 정적 웹앱입니다. 모든 데이터는 이 브라우저에만 저장됩니다.</p>
+  </div>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- 잠금 화면 -->
+<div id="lockScreen" class="lock-screen" hidden>
+  <div class="lock-card">
+    <span class="logo-mark" aria-hidden="true"></span>
+    <span class="eyebrow">dangoal marketing studio</span>
+    <h2>앱이 잠겨 있습니다</h2>
+    <p class="lead">PIN을 입력하면 이 브라우저에 암호화되어 저장된 리드·지표·발신자 정보가 열립니다.</p>
+    <form id="unlockForm" class="unlock-form">
+      <label class="sr-only" for="unlockPin">PIN</label>
+      <input id="unlockPin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="64" placeholder="PIN" autofocus>
+      <button class="btn btn-primary" type="submit" id="btnUnlock">열기</button>
+    </form>
+    <p class="lock-error" id="unlockError" role="alert"></p>
+    <button class="link-btn" id="btnForgotPin" type="button">PIN을 잊으셨나요?</button>
+    <p class="fine">PIN은 어디에도 저장되지 않아 찾아드릴 수 없습니다. 잊으셨다면 초기화만 가능하고, 저장된 리드·지표는 삭제됩니다.</p>
+    <p class="fine">데이터는 서버로 전송되지 않습니다. 모든 암호화는 이 브라우저 안에서 이뤄집니다.</p>
+  </div>
+</div>
+
+<!-- 설정 -->
+<div id="settingsModal" class="modal" hidden>
+  <div class="modal-backdrop" data-close-settings></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="modal-head">
+      <div><span class="eyebrow">Settings</span><h2 id="settingsTitle">설정</h2></div>
+      <button class="icon-btn" id="btnCloseSettings" type="button" aria-label="닫기">✕</button>
+    </div>
+    <div class="modal-body">
+      <section class="settings-section">
+        <h3>발신자 정보</h3>
+        <p class="fine">콜드메일 서명과 상세페이지·카드뉴스 CTA에 쓰입니다. <strong>이 브라우저(localStorage)에만 저장</strong>되고 외부로 전송되지 않습니다. 공개 저장소에 올릴 정보가 아닙니다.</p>
+        <form id="profileForm" autocomplete="off">
+          <div class="field-row">
+            <div class="field"><label for="setSenderName">담당자 이름</label><input id="setSenderName" maxlength="60" autocomplete="name" placeholder="예: 홍길동"></div>
+            <div class="field"><label for="setCompany">상호</label><input id="setCompany" maxlength="80" placeholder="예: 다정"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label for="setPhone">연락처</label><input id="setPhone" maxlength="30" inputmode="tel" placeholder="010-0000-0000"></div>
+            <div class="field"><label for="setEmail">이메일</label><input id="setEmail" maxlength="200" inputmode="email" placeholder="name@example.com"></div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">저장</button>
+            <span class="fine" id="profileSaved" role="status"></span>
+          </div>
+        </form>
+      </section>
+
+      <section class="settings-section">
+        <h3>잠금 · 로컬 암호화</h3>
+        <div id="cryptoUnavailable" class="warn-box" hidden>이 브라우저에서는 암호화(Web Crypto)를 지원하지 않습니다. HTTPS로 접속해 주세요.</div>
+        <p class="fine">잠금을 켜면 리드·지표·발신자 정보가 <strong>AES-GCM 256</strong>으로 암호화되어 저장됩니다. PIN은 저장되지 않으며, 잊으면 <strong>복구할 수 없습니다.</strong></p>
+        <p class="status-line">상태: <strong id="lockStatus">꺼짐</strong></p>
+
+        <div id="lockOffPanel">
+          <form id="lockOnForm" autocomplete="off">
+            <div class="field-row">
+              <div class="field"><label for="newPin">PIN (4자리 이상)</label><input id="newPin" type="password" autocomplete="new-password" maxlength="64"></div>
+              <div class="field"><label for="newPin2">PIN 확인</label><input id="newPin2" type="password" autocomplete="new-password" maxlength="64"></div>
+            </div>
+            <div class="form-actions"><button class="btn btn-dark" type="submit">잠금 켜기</button></div>
+          </form>
+        </div>
+
+        <div id="lockOnPanel" hidden>
+          <form id="lockChangeForm" autocomplete="off">
+            <div class="field"><label for="curPin">현재 PIN</label><input id="curPin" type="password" autocomplete="current-password" maxlength="64"></div>
+            <div class="field-row">
+              <div class="field"><label for="nextPin">새 PIN</label><input id="nextPin" type="password" autocomplete="new-password" maxlength="64"></div>
+              <div class="field"><label for="nextPin2">새 PIN 확인</label><input id="nextPin2" type="password" autocomplete="new-password" maxlength="64"></div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">PIN 변경</button>
+              <button class="btn btn-ghost" type="button" id="btnLockNow">지금 잠그기</button>
+              <button class="btn btn-ghost danger" type="button" id="btnDisableLock">암호화 끄기</button>
+            </div>
+          </form>
+        </div>
+        <p class="fine">공용 PC에서는 사용 후 “지금 잠그기”를 누르세요. 자동 잠금은 없습니다.</p>
+      </section>
+
+      <section class="settings-section">
+        <h3>데이터</h3>
+        <p class="fine">내보낸 JSON은 <strong>평문</strong>입니다. 발신자 정보와 리드가 들어 있으니 안전한 곳에 보관하고, 공개 저장소에는 올리지 마세요.</p>
+        <div class="form-actions">
+          <button class="btn btn-ghost btn-sm" type="button" id="btnSettingsExport">JSON 내보내기</button>
+          <button class="btn btn-ghost btn-sm" type="button" id="btnSettingsImport">JSON 가져오기</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/crypto.js"></script>
+<script src="js/store.js"></script>
+<script src="js/coldmail.js"></script>
+<script src="js/cardnews.js"></script>
+<script src="js/landing.js"></script>
+<script src="js/metrics.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
