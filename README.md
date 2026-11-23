@@ -30,6 +30,10 @@ Node가 있다면 `npx serve .` 도 됩니다.
 ## 2. 무료 배포
 
 ### GitHub Pages (가장 간단)
+> 이 앱은 `jinhoo111/marketing` 저장소에 올라가 있습니다.
+> Pages를 켜면 **https://jinhoo111.github.io/marketing/** 에서 열립니다.
+> 저장소 **Settings → Pages → Deploy from a branch → `main` / `/ (root)` → Save**
+
 1. GitHub에서 새 저장소를 만듭니다. (Public)
 2. 이 폴더의 파일을 저장소 루트에 그대로 올립니다.
    ```bash
@@ -75,6 +79,7 @@ dangoal-marketing-app/
 │   ├── landing.js        # 상세페이지 빌더 + HTML 코드 생성
 │   ├── metrics.js        # 지표 입력·차트·진단 규칙
 │   └── app.js            # 탭 라우팅, 전략 보드, 데이터 관리
+├── SECURITY.md           # 보안 정책과 한계
 ├── README.md
 └── .nojekyll             # GitHub Pages에서 Jekyll 처리 생략
 ```
