@@ -68,6 +68,7 @@ dangoal-marketing-app/
 ├── index.html            # 5개 탭 화면 (전략/콜드메일/카드뉴스/상세페이지/지표)
 ├── styles.css            # 브랜드 스타일 (베이지·오렌지·다크)
 ├── robots.txt            # 검색엔진·AI 크롤러 차단
+├── _headers              # Cloudflare/Netlify용 보안 헤더 (GitHub Pages는 무시)
 ├── js/
 │   ├── early.js          # CSP 호환용 오류 수집기 (인라인 스크립트 없음)
 │   ├── data.js           # 브랜드·3무·타겟·세그먼트·챌린지 콘셉트·채널 정의 ★문구 수정은 여기
