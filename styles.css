@@ -431,7 +431,7 @@ input[type="radio"], input[type="checkbox"] { accent-color: var(--orange); }
 
 .lock-screen { position: fixed; inset: 0; z-index: 300; background: var(--cream); display: flex; align-items: center; justify-content: center; padding: 24px; overflow: auto; }
 .lock-card { width: min(440px, 100%); background: var(--white); border: 1px solid var(--line); border-radius: 28px; padding: 34px; box-shadow: 0 24px 60px rgba(30, 30, 30, .12); text-align: center; }
-.lock-card .logo-mark { margin: 0 auto 14px; }
+.lock-card .logo-mark { display: block; margin: 0 auto 14px; }
 .lock-card h2 { font-size: 26px; margin: 4px 0 10px; }
 .lock-card .lead { font-size: 13.5px; line-height: 1.7; }
 .lock-card .fine { margin-top: 12px; }
